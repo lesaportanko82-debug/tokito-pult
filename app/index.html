@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Голос Токито</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:var(--tg-theme-secondary-bg-color,#f4f2ee);
+  --card:var(--tg-theme-section-bg-color,var(--tg-theme-bg-color,#fff));
+  --text:var(--tg-theme-text-color,#1d1b19);
+  --hint:var(--tg-theme-hint-color,#8a847c);
+  --link:var(--tg-theme-link-color,#7a2e3a);
+  --accent:#4E1C24;
+  --btn:var(--tg-theme-button-color,#4E1C24);
+  --btn-text:var(--tg-theme-button-text-color,#fff);
+  --sep:var(--tg-theme-section-separator-color,rgba(0,0,0,.08));
+  --bad:var(--tg-theme-destructive-text-color,#c0392b);
+  --good:#2f7d5b;
+  --soft:rgba(127,127,127,.10);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
+body{padding:calc(var(--tg-content-safe-area-inset-top,0px) + 12px) 16px calc(84px + var(--tg-safe-area-inset-bottom,0px))}
+h1{font-size:22px;margin:4px 0 2px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--hint);font-weight:600;margin:22px 4px 8px}
+.sub{color:var(--hint);font-size:13px}
+.card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px}
+.row{display:flex;align-items:center;gap:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--card);border-radius:14px;padding:12px 14px}
+.kpi b{display:block;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--hint)}
+.kpi i{font-style:normal;font-size:12px;margin-left:4px}
+.up{color:var(--bad)}.down{color:var(--good)}
+.list{background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:10px}
+.item{padding:12px 14px;border-top:1px solid var(--sep)}
+.item:first-child{border-top:0}
+.item small{color:var(--hint);display:block;font-size:12.5px;margin-top:2px}
+.bar{height:6px;border-radius:3px;background:var(--soft);margin-top:6px;overflow:hidden}
+.bar>div{height:100%;background:var(--accent);border-radius:3px}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:10px;background:var(--soft);color:var(--hint)}
+.pill.red{background:rgba(192,57,43,.12);color:var(--bad)}
+.pill.today{background:rgba(78,28,36,.12);color:var(--link)}
+.task{display:flex;gap:12px;align-items:flex-start}
+.task .t{flex:1;white-space:pre-wrap;word-break:break-word}
+.chk{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--hint);background:none;margin-top:1px;padding:0;cursor:pointer}
+.chk:active{background:var(--soft)}
+.x{flex:none;border:0;background:none;color:var(--hint);font-size:20px;line-height:1;padding:0 2px;cursor:pointer}
+button.main{width:100%;border:0;border-radius:12px;padding:13px;font:600 15px/1 inherit;background:var(--btn);color:var(--btn-text);cursor:pointer}
+button.ghost{border:0;background:var(--soft);color:var(--text);border-radius:10px;padding:9px 12px;font:500 14px/1 inherit;cursor:pointer}
+input,textarea,select{width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--sep);border-radius:10px;padding:11px 12px;outline:none}
+textarea{resize:vertical;min-height:90px}
+label{display:block;font-size:12.5px;color:var(--hint);margin:10px 2px 4px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chips button{border:0;background:var(--soft);color:var(--text);border-radius:16px;padding:7px 12px;font:500 13px/1 inherit;cursor:pointer}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--sep);padding:6px 6px calc(6px + var(--tg-safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--hint);font:500 11px/1.2 inherit;padding:6px 0;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+nav button svg{width:22px;height:22px}
+nav button.on{color:var(--link)}
+.tab{display:none}.tab.on{display:block}
+.empty{color:var(--hint);text-align:center;padding:18px 8px}
+.err{background:rgba(192,57,43,.1);color:var(--bad);border-radius:12px;padding:12px 14px;margin:10px 0}
+.spark{display:flex;align-items:flex-end;gap:3px;height:44px;margin-top:10px}
+.spark div{flex:1;background:var(--accent);opacity:.8;border-radius:3px 3px 0 0;min-height:2px}
+.legend{display:flex;justify-content:space-between;font-size:11px;color:var(--hint);margin-top:4px}
+.seg{display:flex;background:var(--soft);border-radius:10px;padding:3px;margin-bottom:10px}
+.seg button{flex:1;border:0;background:none;padding:8px 0;border-radius:8px;font:500 13px/1 inherit;color:var(--text);cursor:pointer}
+.seg button.on{background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.verdict{font-weight:700;font-size:17px}
+.fixed{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:12px;margin-top:8px}
+.skel{height:64px;border-radius:14px;background:linear-gradient(90deg,var(--card),var(--soft),var(--card));background-size:200% 100%;animation:sk 1.2s infinite;margin-bottom:10px}
+@keyframes sk{to{background-position:-200% 0}}
+a{color:var(--link);text-decoration:none}
+.hanko{width:30px;height:30px;border-radius:7px;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px;flex:none}
+</style>
+</head>
+<body>
+<div class="row" style="margin-bottom:6px">
+  <div class="hanko">時</div>
+  <div style="flex:1"><h1 id="hello">Голос Токито</h1><div class="sub" id="stamp">Загружаю…</div></div>
+  <button class="ghost" id="refresh" aria-label="Обновить">↻</button>
+</div>
+<div id="error"></div>
+
+<section class="tab on" id="t-today">
+  <div id="today"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+</section>
+
+<section class="tab" id="t-tasks">
+  <h2>Новое напоминание</h2>
+  <div class="card">
+    <label for="ttext">Что напомнить</label>
+    <textarea id="ttext" rows="2" placeholder="Например: отправить отчёт по СЦ"></textarea>
+    <div class="chips" id="quick">
+      <button data-q="h1">Через час</button><button data-q="t9">Завтра 9:00</button><button data-q="t14">Завтра 14:00</button><button data-q="mon">Пн 9:30</button>
+    </div>
+    <div class="grid" style="margin-top:2px">
+      <div><label for="tdate">Дата</label><input type="date" id="tdate"></div>
+      <div><label for="ttime">Время (Алматы)</label><input type="time" id="ttime"></div>
+    </div>
+    <label for="trep">Повтор</label>
+    <select id="trep"><option value="none">Без повтора</option><option value="daily">Каждый день</option><option value="weekdays">По будням</option><option value="weekly">Каждую неделю</option><option value="monthly">Каждый месяц</option></select>
+    <div style="height:12px"></div>
+    <button class="main" id="tsave">Сохранить</button>
+  </div>
+  <h2>Активные</h2>
+  <div id="tasks"></div>
+</section>
+
+<section class="tab" id="t-quality">
+  <div class="seg" id="qseg"><button data-q="sc" class="on">Сервис</button><button data-q="mp">Отзывы</button><button data-q="kb">Вопросы</button></div>
+  <div id="quality"></div>
+</section>
+
+<section class="tab" id="t-check">
+  <h2>Бренд-гард</h2>
+  <div class="card">
+    <label for="ctext">Текст поста, статьи или ответа клиенту</label>
+    <textarea id="ctext" rows="7" placeholder="Вставьте текст"></textarea>
+    <div style="height:12px"></div>
+    <button class="main" id="crun">Проверить по голосу TOKITO</button>
+  </div>
+  <div id="cres"></div>
+</section>
+
+<nav>
+  <button data-t="today" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg>Сегодня</button>
+  <button data-t="tasks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8 12 3 3 5-6"/></svg>Задачи</button>
+  <button data-t="quality"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Качество</button>
+  <button data-t="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 8v5M12 16h.01"/></svg>Проверка</button>
+</nav>
+
+<script>
+const API = 'https://lessya.app.n8n.cloud/webhook/vappo-app';
+const tg = window.Telegram && window.Telegram.WebApp;
+let DATA = null;
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const num = (v, d = 0) => (v === null || v === undefined || v === '') ? '—' : Number(v).toLocaleString('ru-RU', { maximumFractionDigits: d, minimumFractionDigits: d });
+const haptic = (t) => { try { tg && tg.HapticFeedback && tg.HapticFeedback.notificationOccurred(t); } catch (e) {} };
+
+if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('secondary_bg_color'); tg.setBackgroundColor('secondary_bg_color'); } catch (e) {} }
+
+async function call(action, payload = {}) {
+  if (window.__DEMO) return window.__DEMO(action, payload);
+  const initData = tg ? tg.initData : '';
+  const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ initData, action, payload }) });
+  let j = {};
+  try { j = await r.json(); } catch (e) {}
+  if (!r.ok || j.error) throw new Error(j.error || ('Ошибка ' + r.status));
+  return j;
+}
+
+function showError(msg) { $('#error').innerHTML = msg ? '<div class="err">' + esc(msg) + '</div>' : ''; }
+
+async function load() {
+  $('#stamp').textContent = 'Загружаю…';
+  try {
+    DATA = await call('home');
+    showError('');
+    $('#hello').textContent = DATA.name ? 'Добрый день, ' + DATA.name : 'Голос Токито';
+    $('#stamp').textContent = 'Обновлено ' + DATA.now + ' (Алматы)';
+    renderToday(); renderTasks(); renderQuality();
+  } catch (e) {
+    $('#stamp').textContent = 'Нет данных';
+    $('#today').innerHTML = '';
+    showError(e.message === 'Failed to fetch' ? 'Нет связи с сервером. Проверьте интернет и нажмите ↻' : e.message);
+  }
+}
+
+function delta(cur, prev, worseUp = true, d = 0) {
+  if (cur == null || prev == null || prev === '') return '';
+  const diff = cur - prev; if (!diff) return '<i>без изм.</i>';
+  const bad = worseUp ? diff > 0 : diff < 0;
+  return '<i class="' + (bad ? 'up' : 'down') + '">' + (diff > 0 ? '+' : '') + num(diff, d) + '</i>';
+}
+
+function bars(list, maxN) {
+  const m = maxN || Math.max(1, ...list.map(x => x.n || 0));
+  return list.map(x => '<div class="item"><div class="row"><div style="flex:1">' + esc(x.k) + '</div><b>' + num(x.n) + '</b></div><div class="bar"><div style="width:' + Math.round((x.n || 0) / m * 100) + '%"></div></div></div>').join('');
+}
+
+function taskItem(t, compact) {
+  const badge = t.overdue ? '<span class="pill red">просрочено</span>' : t.today ? '<span class="pill today">сегодня ' + esc(t.time) + '</span>' : '<span class="pill">' + esc(t.date + ' ' + t.time) + '</span>';
+  return '<div class="item task"><button class="chk" data-done="' + t.id + '" aria-label="Готово"></button><div class="t">' + esc(compact && t.text.length > 140 ? t.text.slice(0, 140) + '…' : t.text) + '<small>' + badge + (t.repeat ? ' · ' + esc(t.repeat) : '') + '</small></div>' + (compact ? '' : '<button class="x" data-cancel="' + t.id + '" aria-label="Удалить">×</button>') + '</div>';
+}
+
+function renderToday() {
+  const d = DATA, v = d.voice, sc = d.sc, mp = d.mp;
+  const todays = d.tasks.filter(t => t.today || t.overdue);
+  let h = '';
+  h += '<h2>Задачи на сегодня</h2>';
+  h += todays.length ? '<div class="list">' + todays.map(t => taskItem(t, true)).join('') + '</div>' : '<div class="card empty">На сегодня задач нет</div>';
+  h += '<h2>Голос клиента за 7 дней</h2><div class="grid">';
+  h += '<div class="kpi"><b>' + num(v.total) + '</b><span>записей из отзывов, CRM и бота</span></div>';
+  h += '<div class="kpi"><b' + (v.urgent ? ' class="up"' : '') + '>' + num(v.urgent) + '</b><span>срочных</span></div>';
+  h += '<div class="kpi"><b>' + num(mp.avg30, 2) + delta(mp.avg30, mp.avgPrev30, false, 2) + '</b><span>средняя оценка МП, 30 дн.</span></div>';
+  h += '<div class="kpi"><b>' + num(sc.open) + '</b><span>открытых обращений в СЦ</span></div>';
+  h += '</div>';
+  if (v.urgentList.length) {
+    h += '<h2>Срочное</h2><div class="list">' + v.urgentList.map(u => '<div class="item">' + esc(u.text) + '<small>' + esc(u.source) + ' · ' + esc(u.product) + ' · ' + esc(u.day.split('-').reverse().slice(0, 2).join('.')) + '</small></div>').join('') + '</div>';
+  }
+  if (v.complaints.length) h += '<h2>Главные жалобы недели</h2><div class="list">' + bars(v.complaints) + '</div>';
+  h += '<h2>Ссылки</h2><div class="list"><div class="item"><a href="#" data-link="' + esc(d.links.sheet) + '">Таблица «Маркетинг-контур TOKITO»</a></div><div class="item"><a href="#" data-link="' + esc(d.links.pult) + '">Пульт процессов</a></div></div>';
+  $('#today').innerHTML = h;
+}
+
+function renderTasks() {
+  const t = DATA.tasks;
+  $('#tasks').innerHTML = t.length ? '<div class="list">' + t.map(x => taskItem(x, false)).join('') + '</div>' : '<div class="card empty">Активных задач нет</div>';
+}
+
+let qView = 'sc';
+function renderQuality() {
+  const d = DATA; let h = '';
+  if (qView === 'sc') {
+    const s = d.sc;
+    h += '<div class="grid">';
+    h += '<div class="kpi"><b>' + num(s.p7.total) + '</b><span>обращений за 7 дн.</span></div>';
+    h += '<div class="kpi"><b>' + num(s.p7.csat, 2) + '</b><span>оценка клиентов, 7 дн.</span></div>';
+    h += '<div class="kpi"><b>' + num(s.p30.first) + delta(s.p30.first, s.prev30.first, true) + '</b><span>мин до первого ответа, медиана 30 дн.</span></div>';
+    h += '<div class="kpi"><b' + (s.p7.noReply ? ' class="up"' : '') + '>' + num(s.p7.noReply) + '</b><span>без ответа менеджера, 7 дн.</span></div>';
+    h += '</div>';
+    if (s.weeks.length) {
+      const m = Math.max(1, ...s.weeks.map(w => w.total || 0));
+      h += '<div class="card"><div class="row"><div style="flex:1">Обращения по неделям</div><span class="sub">' + s.weeks.length + ' нед.</span></div><div class="spark">' + s.weeks.map(w => '<div title="' + esc(w.w) + ': ' + w.total + '" style="height:' + Math.round((w.total || 0) / m * 100) + '%"></div>').join('') + '</div><div class="legend"><span>' + esc(s.weeks[0].w.slice(5).split('-').reverse().join('.')) + '</span><span>' + esc(s.weeks[s.weeks.length - 1].w.slice(5).split('-').reverse().join('.')) + '</span></div></div>';
+    }
+    if (s.managers.length) h += '<h2>Менеджеры, 30 дн.</h2><div class="list">' + s.managers.map(m => '<div class="item"><div class="row"><b style="flex:1">' + esc(m.name) + '</b><span class="pill">' + num(m.overall, 1) + ' из 5</span></div><small>' + num(m.req) + ' обращений · оценка ' + num(m.csat, 2) + ' · первый ответ ' + num(m.first) + ' мин</small><small>' + Object.entries(m.words).map(([k, v]) => esc(k) + ': ' + (v === 'слабо' ? '<span class="up">' + esc(v) + '</span>' : esc(v))).join(' · ') + '</small></div>').join('') + '</div>';
+    if (s.reasons.length) h += '<h2>Причины обращений, 30 дн.</h2><div class="list">' + bars(s.reasons) + '</div>';
+    if (s.articles.length) h += '<h2>Проблемные артикулы</h2><div class="list">' + s.articles.map(a => '<div class="item"><div class="row"><b style="flex:1">' + esc(a.k) + '</b><span>' + num(a.n30) + ' / ' + num(a.n90) + '</span></div><small>' + esc(a.product) + ' · 30 / 90 дн.</small></div>').join('') + '</div>';
+    h += '<div class="sub" style="margin:6px 4px">Витрина СЦ от ' + esc(s.updated) + '</div>';
+  } else if (qView === 'mp') {
+    const m = d.mp;
+    h += '<div class="grid">';
+    h += '<div class="kpi"><b>' + num(m.avg30, 2) + delta(m.avg30, m.avgPrev30, false, 2) + '</b><span>средняя оценка, 30 дн.</span></div>';
+    h += '<div class="kpi"><b>' + num(m.neg30) + delta(m.neg30, m.negPrev30, true) + '</b><span>негативных из ' + num(m.total30) + '</span></div>';
+    h += '</div>';
+    if (m.reasons.length) h += '<h2>Причины негатива, 90 дн.</h2><div class="list">' + bars(m.reasons) + '</div>';
+    if (m.top.length) h += '<h2>Артикулы с негативом</h2><div class="list">' + m.top.map(a => '<div class="item"><div class="row"><b style="flex:1">' + esc(a.k) + '</b><span class="pill' + (a.avg < 4 ? ' red' : '') + '">' + num(a.avg, 2) + '</span></div><small>' + esc(a.product) + '</small><small>' + num(a.neg) + ' негатив. из ' + num(a.total) + ' · ' + esc(a.reasons) + '</small></div>').join('') + '</div>';
+    h += '<div class="sub" style="margin:6px 4px">Отзывы WB и Яндекс Маркета из Парсвипа, витрина от ' + esc(m.updated) + '</div>';
+  } else {
+    const k = d.kb;
+    h += '<div class="grid">';
+    h += '<div class="kpi"><b>' + num(k.q30) + delta(k.q30, k.qPrev30, true) + '</b><span>вопросов покупателей, 30 дн.</span></div>';
+    h += '<div class="kpi"><b' + (k.botUnanswered ? ' class="up"' : '') + '>' + num(k.botUnanswered) + '</b><span>без ответа у бота</span></div>';
+    h += '<div class="kpi"><b>' + num(k.cardsOpen) + '</b><span>карточек на доработку</span></div>';
+    h += '<div class="kpi"><b>' + num(k.brak30) + '</b><span>случаев брака, 30 дн.</span></div>';
+    h += '</div>';
+    if (k.top.length) h += '<h2>Частые вопросы</h2><div class="list">' + k.top.map(q => '<div class="item"><div class="row"><div style="flex:1">' + esc(q.k) + '</div><b>' + num(q.n) + '</b></div><small>' + (q.answered ? 'Ответ в базе есть. ' : '<span class="up">Ответа в базе нет.</span> ') + esc(q.fix) + '</small></div>').join('') + '</div>';
+    h += '<div class="sub" style="margin:6px 4px">База знаний и вопросы бота, витрина от ' + esc(k.updated) + '</div>';
+  }
+  $('#quality').innerHTML = h;
+}
+
+// ---- tabs ----
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.id === 't-' + b.dataset.t));
+  try { tg && tg.HapticFeedback.selectionChanged(); } catch (e) {}
+  window.scrollTo(0, 0);
+});
+document.querySelectorAll('#qseg button').forEach(b => b.onclick = () => {
+  qView = b.dataset.q;
+  document.querySelectorAll('#qseg button').forEach(x => x.classList.toggle('on', x === b));
+  if (DATA) renderQuality();
+});
+$('#refresh').onclick = load;
+
+// ---- task actions ----
+document.addEventListener('click', async (e) => {
+  const link = e.target.closest('[data-link]');
+  if (link) { e.preventDefault(); const u = link.dataset.link; tg && tg.openLink ? tg.openLink(u) : window.open(u, '_blank'); return; }
+  const done = e.target.closest('[data-done]'), cancel = e.target.closest('[data-cancel]');
+  if (!done && !cancel) return;
+  const id = Number((done || cancel).dataset.done || (done || cancel).dataset.cancel);
+  const status = done ? 'done' : 'cancelled';
+  const go = async () => {
+    try {
+      await call('set_status', { id, status });
+      DATA.tasks = DATA.tasks.filter(t => t.id !== id);
+      haptic('success'); renderToday(); renderTasks();
+    } catch (err) { haptic('error'); showError(err.message); }
+  };
+  if (cancel) { tg && tg.showConfirm ? tg.showConfirm('Удалить напоминание?', ok => ok && go()) : (confirm('Удалить напоминание?') && go()); }
+  else go();
+});
+
+const pad = (n) => String(n).padStart(2, '0');
+function almatyNow() { const d = new Date(Date.now() + 5 * 3600e3); return d; } // UTC+5
+function setWhen(d) { $('#tdate').value = d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); $('#ttime').value = pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()); }
+(function initWhen() { const d = almatyNow(); d.setUTCHours(d.getUTCHours() + 1, 0, 0, 0); setWhen(d); })();
+document.querySelectorAll('#quick button').forEach(b => b.onclick = () => {
+  const d = almatyNow(); const q = b.dataset.q;
+  if (q === 'h1') { d.setUTCMinutes(d.getUTCMinutes() + 60, 0, 0); }
+  if (q === 't9' || q === 't14') { d.setUTCDate(d.getUTCDate() + 1); d.setUTCHours(q === 't9' ? 9 : 14, 0, 0, 0); }
+  if (q === 'mon') { const add = ((8 - d.getUTCDay()) % 7) || 7; d.setUTCDate(d.getUTCDate() + add); d.setUTCHours(9, 30, 0, 0); }
+  setWhen(d);
+});
+$('#tsave').onclick = async () => {
+  const text = $('#ttext').value.trim();
+  if (!text) { showError('Напишите, что напомнить'); return; }
+  const btn = $('#tsave'); btn.disabled = true; btn.textContent = 'Сохраняю…';
+  try {
+    await call('add_task', { text, due: $('#tdate').value + 'T' + $('#ttime').value, repeat: $('#trep').value });
+    $('#ttext').value = ''; showError(''); haptic('success');
+    await load();
+  } catch (err) { haptic('error'); showError(err.message); }
+  btn.disabled = false; btn.textContent = 'Сохранить';
+};
+
+// ---- brand guard ----
+$('#crun').onclick = async () => {
+  const text = $('#ctext').value.trim();
+  if (!text) { showError('Вставьте текст для проверки'); return; }
+  const btn = $('#crun'); btn.disabled = true; btn.textContent = 'Проверяю, до минуты…';
+  $('#cres').innerHTML = '<div class="skel"></div>';
+  try {
+    const r = await call('check', { text });
+    const tone = /Можно/.test(r.verdict || '') ? 'down' : 'up';
+    $('#cres').innerHTML = '<div class="card"><div class="verdict ' + tone + '">' + esc(r.verdict || 'Проверено') + '</div>' +
+      ((r.issues || []).length ? '<ul style="padding-left:18px;margin:8px 0 0">' + r.issues.map(i => '<li style="margin:4px 0">' + esc(i) + '</li>').join('') + '</ul>' : '') +
+      '<label>Вариант в голосе TOKITO</label><div class="fixed" id="cfixed">' + esc(r.fixed || '') + '</div><div style="height:10px"></div><button class="ghost" id="ccopy">Скопировать вариант</button></div>';
+    $('#ccopy').onclick = () => { navigator.clipboard && navigator.clipboard.writeText(r.fixed || '').then(() => { $('#ccopy').textContent = 'Скопировано'; haptic('success'); }); };
+    showError('');
+  } catch (err) { $('#cres').innerHTML = ''; haptic('error'); showError(err.message); }
+  btn.disabled = false; btn.textContent = 'Проверить по голосу TOKITO';
+};
+
+load();
+</script>
+</body>
+</html>
