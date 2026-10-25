@@ -198,7 +198,7 @@ a{color:var(--link)}
   </div>
   <h2>Подготовить сообщение</h2>
   <div class="card">
-    <p class="sub">Заполните поля, и мы откроем чат сервиса с готовым текстом. Останется прикрепить фото и отправить. Данные никуда не сохраняются, сообщение отправляете вы сами.</p>
+    <p class="sub">Заполните поля: мы составим и скопируем текст обращения. В чате сервиса останется вставить его, прикрепить фото и отправить. Данные никуда не сохраняются, сообщение отправляете вы сами.</p>
     <label>Товар</label>
     <div class="picker" data-for="s"></div>
     <label for="sprob">Что случилось</label>
@@ -210,8 +210,9 @@ a{color:var(--link)}
     <label for="sord">Номер заказа (необязательно)</label>
     <input id="sord" maxlength="60">
     <div style="height:14px"></div>
-    <button class="main" id="ssave">Открыть чат сервиса с текстом</button>
+    <button class="main" id="ssave">Подготовить сообщение</button>
   </div>
+  <div id="sready"></div>
 </section>
 
 <div class="sheet" id="sheet"><div class="in" id="sheetIn"></div></div>
@@ -348,15 +349,27 @@ $('#wsave').onclick = async () => {
   btn.disabled = false; btn.textContent = 'Зарегистрировать';
 };
 
-$('#ssave').onclick = () => {
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); return true; } catch (e) {}
+  try { const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.focus(); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok; } catch (e) { return false; }
+}
+$('#ssave').onclick = async () => {
   const problem = $('#sprob').value.trim();
   if (problem.length < 5) return showError('Опишите, что случилось');
-  const p = PICK.s || { sku: '', product: '' };
+  const typed = (document.querySelector('.picker[data-for="s"] input') || {}).value || '';
+  const p = PICK.s || { sku: '', product: typed.trim() };
   const lines = ['Здравствуйте! Обращение по товару TOKITO.', 'Товар: ' + ([p.product, p.sku].filter(Boolean).join(', ') || 'укажу на фото'), 'Что случилось: ' + problem];
   const d = $('#sdate').value; lines.push('Куплен: ' + $('#sch').value + (d ? ', ' + fmtDate(d) : '') + ($('#sord').value.trim() ? ', заказ ' + $('#sord').value.trim() : ''));
   lines.push('Фото проблемы и чек прикладываю.');
+  const text = lines.join('\n');
   showError('');
-  openTg('https://t.me/SC_Tokito?text=' + encodeURIComponent(lines.join('\n')));
+  const copied = await copyText(text);
+  $('#sready').innerHTML = '<div class="card"><label style="margin-top:0">Текст сообщения' + (copied ? ' (уже скопирован)' : '') + '</label><div class="pre" style="background:var(--bg);border-radius:10px;padding:12px">' + esc(text) + '</div><div style="height:10px"></div><div class="grid"><button class="ghost" id="scopy">Скопировать</button><button class="ghost" data-link-tg="https://t.me/SC_Tokito">Открыть чат</button></div></div>';
+  $('#scopy').onclick = async () => { if (await copyText(text)) { $('#scopy').textContent = 'Скопировано'; haptic('success'); } };
+  const url = 'https://t.me/SC_Tokito?text=' + encodeURIComponent(text);
+  const msg = (copied ? 'Текст скопирован. ' : '') + 'В чате сервиса нажмите на поле ввода и выберите «Вставить», прикрепите фото и чек, затем отправьте.';
+  try { tg.showPopup({ title: 'Почти готово', message: msg, buttons: [{ id: 'go', type: 'default', text: 'Открыть чат сервиса' }, { type: 'cancel' }] }, (id) => { if (id === 'go') openTg(url); }); }
+  catch (e) { openTg(url); }
 };
 
 // ---------- навигация и ссылки ----------
