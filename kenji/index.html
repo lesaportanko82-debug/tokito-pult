@@ -112,7 +112,7 @@ a{color:var(--link)}
       <li>Протирайте мягкой влажной тканью и вытирайте насухо, чтобы не оставались капли и налёт.</li>
       <li>Не используйте абразивы, жёсткие губки, средства с кислотами, хлором, спиртом и ацетоном: они повреждают покрытие.</li>
       <li>Мягкое средство для мытья посуды подходит для регулярной уборки, затем смойте его водой.</li>
-      <li>Если покрытие изменилось или облезает в гарантийный срок, оформите заявку в разделе «Сервис».</li>
+      <li>Если покрытие изменилось или облезает в гарантийный срок, напишите в сервисный центр через раздел «Сервис».</li>
     </ul>
   </details>
   <details><summary>Аэратор: снять и промыть</summary>
@@ -122,7 +122,7 @@ a{color:var(--link)}
       <li>Промойте сетки под проточной водой и мягкой щёткой уберите частицы.</li>
       <li>Соберите в том же порядке и закрутите от руки, без усилия.</li>
     </ol>
-    <p class="sub">Если напор слабый и после промывки, напишите в «Сервис»: подскажем подходящий аэратор.</p>
+    <p class="sub">Если напор слабый и после промывки, напишите в сервисный центр @SC_Tokito.</p>
   </details>
   <details><summary>Перед установкой смесителя</summary>
     <ul>
@@ -139,9 +139,9 @@ a{color:var(--link)}
       <li>Перекройте воду и не пользуйтесь смесителем при трещине или протечке.</li>
       <li>Сфотографируйте или снимите видео проблемы и артикул на коробке.</li>
       <li>Найдите подтверждение покупки: чек, выписку или заказ в личном кабинете маркетплейса.</li>
-      <li>Оформите заявку в разделе «Сервис». Сервисный центр TOKITO свяжется с вами в рабочее время.</li>
+      <li>Напишите в сервисный центр @SC_Tokito и приложите фото, артикул и чек. Раздел «Сервис» поможет подготовить сообщение.</li>
     </ol>
-    <button class="main" data-go="service">Оформить заявку</button><div style="height:14px"></div>
+    <button class="main" data-go="service">Перейти в «Сервис»</button><div style="height:14px"></div>
   </details>
   <details><summary>Что нужно для гарантийного обращения</summary>
     <ul>
@@ -178,30 +178,40 @@ a{color:var(--link)}
 
 <!-- Сервис -->
 <section class="tab" id="t-service">
-  <h2>Заявка в сервис</h2>
+  <h2>Сервисный центр TOKITO</h2>
   <div class="card">
-    <p class="sub">Сервисный центр TOKITO рассмотрит заявку в рабочее время: пн–пт 9:00–18:00 по Москве.</p>
+    <div class="row"><div class="hanko" style="background:#2f7d5b">✓</div><div style="flex:1"><b>@SC_Tokito</b><div class="sub">Telegram · пн–пт 9:00–18:00 по Москве</div></div></div>
+    <div style="height:12px"></div>
+    <button class="main" data-link-tg="https://t.me/SC_Tokito">Написать в сервис</button>
+    <p class="sub" style="margin:10px 0 0">Телефон сервиса: <a href="tel:+79853327181">+7 985 332-71-81</a></p>
+  </div>
+  <h2>Что отправить, чтобы решить быстрее</h2>
+  <div class="card">
+    <ol style="margin:0;padding-left:20px">
+      <li>Модель или артикул (TOK-…), он есть на коробке и в заказе.</li>
+      <li>Фото или видео проблемы: где течёт, что сломалось, как выглядит дефект.</li>
+      <li>Фото артикула или наклейки на коробке.</li>
+      <li>Подтверждение покупки: чек, выписка из банка или скриншот заказа в личном кабинете маркетплейса.</li>
+      <li>Гарантийный талон, если сохранился.</li>
+    </ol>
+    <p class="sub" style="margin:10px 0 0">Если течёт или есть трещина, сначала перекройте воду и не пользуйтесь смесителем.</p>
+  </div>
+  <h2>Подготовить сообщение</h2>
+  <div class="card">
+    <p class="sub">Заполните поля, и мы откроем чат сервиса с готовым текстом. Останется прикрепить фото и отправить. Данные никуда не сохраняются, сообщение отправляете вы сами.</p>
     <label>Товар</label>
     <div class="picker" data-for="s"></div>
     <label for="sprob">Что случилось</label>
-    <textarea id="sprob" maxlength="2000" placeholder="Например: подтекает под рычагом с первого дня, вода не перекрывается полностью"></textarea>
+    <textarea id="sprob" maxlength="1500" placeholder="Например: подтекает под рычагом с первого дня"></textarea>
     <div class="grid">
       <div><label for="sdate">Дата покупки</label><input type="date" id="sdate"></div>
       <div><label for="sch">Где купили</label><select id="sch"><option>Wildberries</option><option>Ozon</option><option>Яндекс Маркет</option><option>Магазин</option><option>Другое</option></select></div>
     </div>
     <label for="sord">Номер заказа (необязательно)</label>
     <input id="sord" maxlength="60">
-    <label for="sname">Как к вам обращаться</label>
-    <input id="sname" maxlength="100">
-    <label for="sphone">Телефон для связи (необязательно)</label>
-    <input id="sphone" type="tel" inputmode="tel" maxlength="20" placeholder="+7">
-    <label class="consent"><input type="checkbox" id="scons"><span>Я согласен(на) на обработку моих данных для рассмотрения заявки на условиях <a href="#" data-doc="consent.html">согласия</a> и <a href="#" data-doc="privacy.html">политики</a>.</span></label>
     <div style="height:14px"></div>
-    <button class="main" id="ssave">Отправить заявку</button>
+    <button class="main" id="ssave">Открыть чат сервиса с текстом</button>
   </div>
-  <div id="sdone"></div>
-  <h2>Мои заявки</h2>
-  <div id="myrequests"><div class="skel"></div></div>
 </section>
 
 <div class="sheet" id="sheet"><div class="in" id="sheetIn"></div></div>
@@ -228,7 +238,6 @@ let CAT = { items: [], warranty: [] }, group = 'Все', shown = 24;
 
 if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('secondary_bg_color'); tg.setBackgroundColor('secondary_bg_color'); } catch (e) {} }
 const user = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || {};
-if (user.first_name) $('#sname').value = user.first_name;
 const today = new Date(Date.now() + 3 * 3600e3).toISOString().slice(0, 10);
 $('#wdate').max = today; $('#sdate').max = today; $('#wdate').value = today;
 
@@ -317,12 +326,11 @@ document.addEventListener('click', (e) => {
 async function loadMine() {
   try {
     const d = await call('home');
-    const w = d.warranty || [], q = d.requests || [];
+    const w = d.warranty || [];
     $('#mywarranty').innerHTML = w.length ? '<div class="list">' + w.map(x => { const active = x.until && x.until >= today; return '<div class="item"><div class="row"><b style="flex:1">' + esc(x.product || x.sku) + '</b>' + (x.until ? '<span class="pill' + (active ? ' good' : '') + '">' + (active ? 'до ' + fmtDate(x.until) : 'истекла') + '</span>' : '') + '</div><small>' + esc([x.sku, x.channel, 'куплен ' + fmtDate(x.bought)].filter(Boolean).join(' · ')) + '</small></div>'; }).join('') + '</div>' : '<div class="card empty">Пока нет зарегистрированных покупок</div>';
-    $('#myrequests').innerHTML = q.length ? '<div class="list">' + q.map(x => '<div class="item"><div class="row"><b style="flex:1">Заявка ' + esc(x.no) + '</b><span class="pill">' + esc(x.status || 'новая') + '</span></div><small>' + esc([x.product || x.sku, fmtDate(x.created)].filter(Boolean).join(' · ')) + '</small><small>' + esc(x.problem) + '</small></div>').join('') + '</div>' : '<div class="card empty">Заявок пока нет</div>';
   } catch (e) {
     const msg = '<div class="card empty">' + esc(e.message === 'Failed to fetch' ? 'Нет связи. Проверьте интернет.' : e.message) + '</div>';
-    $('#mywarranty').innerHTML = msg; $('#myrequests').innerHTML = msg;
+    $('#mywarranty').innerHTML = msg;
   }
 }
 
@@ -340,21 +348,15 @@ $('#wsave').onclick = async () => {
   btn.disabled = false; btn.textContent = 'Зарегистрировать';
 };
 
-$('#ssave').onclick = async () => {
+$('#ssave').onclick = () => {
   const problem = $('#sprob').value.trim();
   if (problem.length < 5) return showError('Опишите, что случилось');
-  if (!$('#scons').checked) return showError('Отметьте согласие на обработку данных');
   const p = PICK.s || { sku: '', product: '' };
-  const btn = $('#ssave'); btn.disabled = true; btn.textContent = 'Отправляю…';
-  try {
-    const r = await call('service', { sku: p.sku, product: p.product, problem, bought: $('#sdate').value, channel: $('#sch').value, order: $('#sord').value.trim(), name: $('#sname').value.trim(), phone: $('#sphone').value.trim(), consent: true, consentVer: CONSENT_VER });
-    showError(''); haptic('success');
-    const text = encodeURIComponent('Заявка ' + r.no + ' из приложения TOKITO. Отправляю фото проблемы и чек.');
-    $('#sdone').innerHTML = '<div class="ok"><b>Заявка ' + esc(r.no) + ' принята.</b><br>Мы прислали подтверждение в чат с ботом. Чтобы решить вопрос быстрее, отправьте фото или видео проблемы и фото чека в чат сервисного центра.<div style="height:10px"></div><button class="main" data-link-tg="https://t.me/SC_Tokito?text=' + text + '">Отправить фото в @SC_Tokito</button></div>';
-    $('#sprob').value = ''; $('#sord').value = ''; $('#scons').checked = false;
-    loadMine();
-  } catch (e) { haptic('error'); showError(e.message); }
-  btn.disabled = false; btn.textContent = 'Отправить заявку';
+  const lines = ['Здравствуйте! Обращение по товару TOKITO.', 'Товар: ' + ([p.product, p.sku].filter(Boolean).join(', ') || 'укажу на фото'), 'Что случилось: ' + problem];
+  const d = $('#sdate').value; lines.push('Куплен: ' + $('#sch').value + (d ? ', ' + fmtDate(d) : '') + ($('#sord').value.trim() ? ', заказ ' + $('#sord').value.trim() : ''));
+  lines.push('Фото проблемы и чек прикладываю.');
+  showError('');
+  openTg('https://t.me/SC_Tokito?text=' + encodeURIComponent(lines.join('\n')));
 };
 
 // ---------- навигация и ссылки ----------
