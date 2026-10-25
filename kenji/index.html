@@ -223,7 +223,7 @@ let CAT = { items: [], warranty: [] }, group = 'Все', shown = 24;
 if (tg) { try { tg.ready(); tg.expand(); tg.setHeaderColor('secondary_bg_color'); tg.setBackgroundColor('secondary_bg_color'); } catch (e) {} }
 const user = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || {};
 const today = new Date(Date.now() + 3 * 3600e3).toISOString().slice(0, 10);
-$('#wdate').max = today; $('#sdate').max = today; $('#wdate').value = today;
+$('#wdate').max = today; $('#wdate').value = today;
 
 function showError(msg) { $('#error').innerHTML = msg ? '<div class="err">' + esc(msg) + '</div>' : ''; if (msg) window.scrollTo(0, 0); }
 
