@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>TOKITO · Кендзи</title>
+<title>TOKITO · Кэндзи</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{
-  --bg:var(--tg-theme-secondary-bg-color,#f3f1ec);
+  --bg:var(--tg-theme-secondary-bg-color,#F8F5F0);
   --card:var(--tg-theme-section-bg-color,var(--tg-theme-bg-color,#fff));
-  --text:var(--tg-theme-text-color,#1d1b19);
-  --hint:var(--tg-theme-hint-color,#8a847c);
+  --text:var(--tg-theme-text-color,#2E2A26);
+  --hint:var(--tg-theme-hint-color,#6A6258);
   --link:var(--tg-theme-link-color,#7a2e3a);
   --accent:#4E1C24;
   --btn:var(--tg-theme-button-color,#4E1C24);
@@ -21,9 +22,10 @@
   --soft:rgba(127,127,127,.10);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Onest,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
+button,input,select{font-family:inherit}
 body{padding:calc(var(--tg-content-safe-area-inset-top,0px) + 12px) 16px calc(86px + var(--tg-safe-area-inset-bottom,0px))}
-h1{font-size:21px;margin:2px 0;font-weight:700;letter-spacing:-.01em}
+h1{font-size:21px;margin:2px 0;font-weight:600;letter-spacing:.08em}
 h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--hint);font-weight:600;margin:22px 4px 8px}
 h3{font-size:16px;margin:0 0 6px}
 p{margin:0 0 8px}
@@ -89,40 +91,42 @@ a{color:var(--link)}
 </head>
 <body>
 <div class="row" style="margin-bottom:10px">
-  <div class="hanko">時</div>
-  <div style="flex:1"><h1>TOKITO</h1><div class="sub">Кендзи, консультант бренда</div></div>
+  <div class="hanko" style="font-family:'Noto Serif JP','Hiragino Mincho ProN',serif">健</div>
+  <div style="flex:1"><h1>TOKITO</h1><div class="sub">Кэндзи, консультант TOKITO</div></div>
 </div>
 <div id="error"></div>
 
 <!-- Подбор -->
 <section class="tab on" id="t-pick">
-  <input id="q" type="search" placeholder="Поиск: смеситель для кухни, AISAI, TOK-…" autocomplete="off">
+  <p class="sub" style="margin:0 4px 10px">Здравствуйте. Найдите товар по названию, серии или артикулу, а мы подскажем, что подойдёт именно вам.</p>
+  <input id="q" type="search" placeholder="Смеситель для кухни, AISAI или TOK-…" autocomplete="off">
   <div style="height:10px"></div>
   <div class="chips" id="groups"></div>
   <div id="products"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
   <button class="ghost" id="more" style="width:100%;display:none">Показать ещё</button>
-  <p class="sub" style="margin:12px 4px">Цена и наличие указаны на маркетплейсе. Не уверены в выборе? Напишите Кендзи в чат, он поможет подобрать.</p>
+  <p class="sub" style="margin:12px 4px">Цену и наличие смотрите на маркетплейсе. Сомневаетесь, что подойдёт? Напишите Кэндзи в чат, подберём вместе по размерам.</p>
 </section>
 
 <!-- Уход и инструкции -->
 <section class="tab" id="t-care">
-  <h2>Инструкции и уход</h2>
-  <details><summary>Как ухаживать за покрытием</summary>
+  <h2>Уход и установка</h2>
+  <p class="sub" style="margin:0 4px 10px">Несколько простых привычек, чтобы всё работало тихо и долго.</p>
+  <details><summary>Как сохранить покрытие</summary>
     <ul>
-      <li>Протирайте мягкой влажной тканью и вытирайте насухо, чтобы не оставались капли и налёт.</li>
-      <li>Не используйте абразивы, жёсткие губки, средства с кислотами, хлором, спиртом и ацетоном: они повреждают покрытие.</li>
-      <li>Мягкое средство для мытья посуды подходит для регулярной уборки, затем смойте его водой.</li>
-      <li>Если покрытие изменилось или облезает в гарантийный срок, напишите в сервисный центр через раздел «Сервис».</li>
+      <li>Протирайте мягкой влажной тканью и вытирайте насухо: так не остаётся капель и налёта.</li>
+      <li>Абразивы, жёсткие губки и средства с кислотой, хлором, спиртом или ацетоном портят покрытие, их лучше отложить.</li>
+      <li>Для обычной уборки подойдёт мягкое средство для посуды, потом просто смойте его водой.</li>
+      <li>Если покрытие изменилось в гарантийный срок, напишите нам в сервисный центр, разберёмся.</li>
     </ul>
   </details>
-  <details><summary>Аэратор: снять и промыть</summary>
+  <details><summary>Слабый напор: промыть аэратор</summary>
     <ol>
       <li>Перекройте воду или просто закройте смеситель.</li>
       <li>Открутите аэратор с конца излива против часовой стрелки. Если он скрытый, нужен ключ для аэратора, он часто идёт в комплекте.</li>
       <li>Промойте сетки под проточной водой и мягкой щёткой уберите частицы.</li>
       <li>Соберите в том же порядке и закрутите от руки, без усилия.</li>
     </ol>
-    <p class="sub">Если напор слабый и после промывки, напишите в сервисный центр @SC_Tokito.</p>
+    <p class="sub">Если напор и после промывки слабый, напишите в сервисный центр @SC_Tokito, подскажем, что делать дальше.</p>
   </details>
   <details><summary>Перед установкой смесителя</summary>
     <ul>
@@ -131,19 +135,19 @@ a{color:var(--link)}
       <li>Горячая вода: до 80 °C.</li>
       <li>Поставьте фильтры грубой очистки 100–300 мкм, они защищают картридж от песка и окалины.</li>
       <li>Перед подключением спустите воду из труб, чтобы промыть систему.</li>
-      <li>Если сомневаетесь в монтаже, лучше пригласить сантехника.</li>
+      <li>Если сомневаетесь в монтаже, спокойнее пригласить сантехника.</li>
     </ul>
   </details>
-  <details><summary>Течёт или не работает: что сделать сразу</summary>
+  <details><summary>Если течёт: что сделать сразу</summary>
     <ol>
       <li>Перекройте воду и не пользуйтесь смесителем при трещине или протечке.</li>
       <li>Сфотографируйте или снимите видео проблемы и артикул на коробке.</li>
       <li>Найдите подтверждение покупки: чек, выписку или заказ в личном кабинете маркетплейса.</li>
       <li>Напишите в сервисный центр @SC_Tokito и приложите фото, артикул и чек.</li>
     </ol>
-    <button class="main" data-go="service">Перейти в «Сервис»</button><div style="height:14px"></div>
+    <button class="main" data-go="service">Написать в сервисный центр</button><div style="height:14px"></div>
   </details>
-  <details><summary>Что нужно для гарантийного обращения</summary>
+  <details><summary>Что понадобится для гарантии</summary>
     <ul>
       <li>Гарантия считается с даты покупки.</li>
       <li>Чек или другое подтверждение покупки: электронный чек, выписка из банка, заказ в личном кабинете маркетплейса.</li>
@@ -152,7 +156,7 @@ a{color:var(--link)}
       <li>Сроки гарантии по узлам указаны в карточке каждого товара.</li>
     </ul>
   </details>
-  <div class="card"><div class="row"><div style="flex:1">Не нашли ответ? Кендзи ответит в чате.</div><button class="ghost" id="toChat">В чат</button></div></div>
+  <div class="card"><div class="row"><div style="flex:1">Не нашли ответ? Спросите Кэндзи в чате.</div><button class="ghost" id="toChat">Спросить</button></div></div>
 </section>
 
 <!-- Гарантия -->
@@ -161,7 +165,7 @@ a{color:var(--link)}
   <div id="mywarranty"><div class="skel"></div></div>
   <h2>Зарегистрировать покупку</h2>
   <div class="card">
-    <p class="sub">Сохраним дату покупки и срок гарантии, чтобы в случае поломки не искать чек и коробку.</p>
+    <p class="sub">Сохраним дату покупки и срок гарантии. Если что-то случится, искать чек и коробку не придётся.</p>
     <label>Товар</label>
     <div class="picker" data-for="w"></div>
     <div class="grid">
@@ -179,13 +183,14 @@ a{color:var(--link)}
 <!-- Сервис -->
 <section class="tab" id="t-service">
   <h2>Сервисный центр TOKITO</h2>
+  <p class="sub" style="margin:0 4px 10px">Мы рядом и после покупки. Напишите, и специалист поможет с гарантией, деталями и установкой.</p>
   <div class="card">
-    <div class="row"><div class="hanko" style="background:#2f7d5b">✓</div><div style="flex:1"><b>@SC_Tokito</b><div class="sub">Telegram · пн–пт 9:00–18:00 по Москве</div></div></div>
+    <div class="row"><div class="hanko" style="background:#2E2A26;font-family:'Noto Serif JP',serif">健</div><div style="flex:1"><b>@SC_Tokito</b><div class="sub">Telegram · пн–пт 9:00–18:00 по Москве</div></div></div>
     <div style="height:12px"></div>
-    <button class="main" data-link-tg="https://t.me/SC_Tokito">Написать в сервис</button>
+    <button class="main" data-link-tg="https://t.me/SC_Tokito">Написать в сервисный центр</button>
     <p class="sub" style="margin:10px 0 0">Телефон сервиса: <a href="tel:+79853327181">+7 985 332-71-81</a></p>
   </div>
-  <h2>Что приложить к сообщению</h2>
+  <h2>Что приложить, чтобы решить быстрее</h2>
   <div class="card">
     <ol style="margin:0;padding-left:20px">
       <li>Модель или артикул (TOK-…), он есть на коробке и в заказе.</li>
@@ -194,7 +199,7 @@ a{color:var(--link)}
       <li>Подтверждение покупки: чек, выписка из банка или скриншот заказа в личном кабинете маркетплейса.</li>
       <li>Гарантийный талон, если сохранился.</li>
     </ol>
-    <p class="sub" style="margin:10px 0 0">Если течёт или есть трещина, сначала перекройте воду и не пользуйтесь смесителем.</p>
+    <p class="sub" style="margin:10px 0 0">Если течёт или появилась трещина, сначала перекройте воду. Смесителем лучше не пользоваться, пока не разберёмся.</p>
   </div>
 </section>
 
@@ -241,11 +246,12 @@ async function loadCatalog() {
     const r = window.__DEMO_CAT ? { ok: true, json: async () => window.__DEMO_CAT } : await fetch(CATALOG);
     if (!r.ok) throw new Error();
     CAT = await r.json();
-    const groups = ['Все', ...['Смесители', 'Душ', 'Унитазы и инсталляции', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары'].filter(g => CAT.items.some(i => i.g === g))];
+    { const O = ['Смесители', 'Унитазы и инсталляции', 'Душ', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары']; const w = (i) => O.indexOf(i.g) + 1 || 9; CAT.items.sort((x, y) => w(x) - w(y)); }
+    const groups = ['Все', ...['Смесители', 'Унитазы и инсталляции', 'Душ', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары'].filter(g => CAT.items.some(i => i.g === g))];
     $('#groups').innerHTML = groups.map(g => '<button data-g="' + esc(g) + '"' + (g === group ? ' class="on"' : '') + '>' + esc(g) + '</button>').join('');
     renderProducts();
     document.querySelectorAll('.picker').forEach(initPicker);
-  } catch (e) { $('#products').innerHTML = '<div class="card empty">Каталог временно недоступен. Попробуйте позже или напишите Кендзи в чат.</div>'; }
+  } catch (e) { $('#products').innerHTML = '<div class="card empty">Каталог сейчас не загрузился. Попробуйте чуть позже или напишите Кэндзи в чат.</div>'; }
 }
 const norm = (s) => String(s || '').toLowerCase().replace(/ё/g, 'е');
 function match(i, q) { if (!q) return true; const hay = norm([i.s, i.n, i.ser, i.col, i.c].join(' ')); return norm(q).split(/\s+/).every(w => hay.includes(w)); }
@@ -270,7 +276,7 @@ function openProduct(sku) {
   if (i.pk) h += '<label>Комплектация</label><div class="pre">' + esc(i.pk) + '</div>';
   if (wd) h += '<label>Гарантия по узлам</label><div class="pre">' + esc(wd) + '</div>';
   h += '<div class="mp">' + (i.wb ? '<a class="wb" href="#" data-link="' + esc(i.wb) + '">Wildberries</a>' : '') + (i.oz ? '<a class="oz" href="#" data-link="' + esc(i.oz) + '">Ozon</a>' : '') + (i.ym ? '<a class="ym" href="#" data-link="' + esc(i.ym) + '">Маркет</a>' : '') + '</div>';
-  h += '<div style="height:10px"></div><div class="grid"><button class="ghost" data-reg="' + esc(i.s) + '">На гарантию</button><button class="ghost" data-ask="' + esc(i.s) + '">Спросить Кендзи</button></div>';
+  h += '<div style="height:10px"></div><div class="grid"><button class="ghost" data-reg="' + esc(i.s) + '">На гарантию</button><button class="ghost" data-ask="' + esc(i.s) + '">Спросить Кэндзи</button></div>';
   $('#sheetIn').innerHTML = h; $('#sheet').classList.add('on');
   try { tg.BackButton.show(); } catch (e) {}
 }
@@ -287,7 +293,7 @@ function initPicker(el) {
   inp.addEventListener('input', () => {
     const q = inp.value.trim(); if (q.length < 2) { box.style.display = 'none'; return; }
     const res = CAT.items.filter(i => match(i, q)).slice(0, 6);
-    box.innerHTML = res.map(i => '<div data-pick="' + esc(i.s) + '">' + esc(i.n) + '<br><span class="sub">' + esc([i.ser, i.col, i.s].filter(Boolean).join(' · ')) + '</span></div>').join('') + '<div data-pick="">Не нашёл свой товар, укажу в описании</div>';
+    box.innerHTML = res.map(i => '<div data-pick="' + esc(i.s) + '">' + esc(i.n) + '<br><span class="sub">' + esc([i.ser, i.col, i.s].filter(Boolean).join(' · ')) + '</span></div>').join('') + '<div data-pick="">Моего товара нет в списке</div>';
     box.style.display = 'block';
   });
   box.addEventListener('click', (e) => { const d = e.target.closest('[data-pick]'); if (!d) return; setPick(key, d.dataset.pick || null, inp.value.trim()); });
@@ -313,7 +319,7 @@ async function loadMine() {
     const w = d.warranty || [];
     $('#mywarranty').innerHTML = w.length ? '<div class="list">' + w.map(x => { const active = x.until && x.until >= today; return '<div class="item"><div class="row"><b style="flex:1">' + esc(x.product || x.sku) + '</b>' + (x.until ? '<span class="pill' + (active ? ' good' : '') + '">' + (active ? 'до ' + fmtDate(x.until) : 'истекла') + '</span>' : '') + '</div><small>' + esc([x.sku, x.channel, 'куплен ' + fmtDate(x.bought)].filter(Boolean).join(' · ')) + '</small></div>'; }).join('') + '</div>' : '<div class="card empty">Пока нет зарегистрированных покупок</div>';
   } catch (e) {
-    const msg = '<div class="card empty">' + esc(e.message === 'Failed to fetch' ? 'Нет связи. Проверьте интернет.' : e.message) + '</div>';
+    const msg = '<div class="card empty">' + esc(e.message === 'Failed to fetch' ? 'Нет связи. Проверьте интернет и попробуйте ещё раз.' : e.message) + '</div>';
     $('#mywarranty').innerHTML = msg;
   }
 }
