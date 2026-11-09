@@ -246,8 +246,8 @@ async function loadCatalog() {
     const r = window.__DEMO_CAT ? { ok: true, json: async () => window.__DEMO_CAT } : await fetch(CATALOG);
     if (!r.ok) throw new Error();
     CAT = await r.json();
-    { const O = ['Смесители', 'Унитазы и инсталляции', 'Душ', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары']; const w = (i) => O.indexOf(i.g) + 1 || 9; CAT.items.sort((x, y) => w(x) - w(y)); }
-    const groups = ['Все', ...['Смесители', 'Унитазы и инсталляции', 'Душ', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары'].filter(g => CAT.items.some(i => i.g === g))];
+    { const O = ['Смесители', 'Унитазы и инсталляции', 'Душ', 'Ванны', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары']; const w = (i) => O.indexOf(i.g) + 1 || 9; CAT.items.sort((x, y) => w(x) - w(y)); }
+    const groups = ['Все', ...['Смесители', 'Унитазы и инсталляции', 'Душ', 'Ванны', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары'].filter(g => CAT.items.some(i => i.g === g))];
     $('#groups').innerHTML = groups.map(g => '<button data-g="' + esc(g) + '"' + (g === group ? ' class="on"' : '') + '>' + esc(g) + '</button>').join('');
     renderProducts();
     document.querySelectorAll('.picker').forEach(initPicker);
@@ -268,12 +268,18 @@ $('#groups').addEventListener('click', (e) => { const b = e.target.closest('[dat
 function openProduct(sku) {
   const i = CAT.items.find(x => x.s === sku); if (!i) return;
   const dims = (i.d || []).some(Boolean) ? ['высота ' + (i.d[0] ?? '—'), 'длина ' + (i.d[1] ?? '—'), 'ширина ' + (i.d[2] ?? '—')].join(', ') + ' мм' : '';
-  const rows = [['Артикул', i.s], ['Серия', i.ser], ['Цвет', i.col], ['Материал', i.m], ['Размеры', dims], ['Аэратор', i.a], ['Душ', i.sh], ['Шланг', i.hs], ['Гарантия', i.wy ? i.wy + ' лет (основные узлы)' : '']].filter(r => r[1]);
+  const cut = (v, re) => String(v || '').replace(re, '').trim();
+  const rows = [['Артикул', i.s], ['Серия', i.ser], ['Цвет', i.col], ['Материал', i.m], ['Размеры', dims], ['Картридж', cut(i.cart, /^картридж:\s*/i)], ['Аэратор', i.a], ['Режимы', cut(i.mode, /^режимы:\s*/i)], ['Душ', i.sh], ['Шланг', i.hs], ['Гарантия', i.wy ? i.wy + ' лет (основные узлы)' : '']].filter(r => r[1]);
   const wd = i.wd >= 0 ? CAT.warranty[i.wd] : '';
   let h = '<div class="row" style="margin-bottom:8px"><h3 style="flex:1">' + esc(i.n) + '</h3><button class="ghost" data-close>✕</button></div>';
   h += '<div class="spec">' + rows.map(r => '<span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span>').join('') + '</div>';
+  if (i.sch) h += '<button class="main" style="margin-top:12px" data-link="' + esc(i.sch) + '">Схема с размерами</button>';
+  else if (i.schx) h += '<p class="sub" style="margin:10px 0 0">У этой модели есть разные версии исполнения. Точные размеры подскажет Кэндзи по фото товара или коробки.</p>';
+  if (!dims && i.dt) h += '<label>Размеры</label><div class="pre">' + esc(cut(i.dt, /^размеры:\s*/i)) + '</div>';
+  if (i.fit) h += '<label>Совместимость</label><div class="pre">' + esc(i.fit) + '</div>';
   if (i.adv) h += '<label>Особенности</label><div class="pre">' + esc(i.adv.replace(/\r/g, '')) + '</div>';
   if (i.pk) h += '<label>Комплектация</label><div class="pre">' + esc(i.pk) + '</div>';
+  if (i.oth) h += '<label>Ещё о модели</label><div class="pre">' + esc(i.oth) + '</div>';
   if (wd) h += '<label>Гарантия по узлам</label><div class="pre">' + esc(wd) + '</div>';
   h += '<div class="mp">' + (i.wb ? '<a class="wb" href="#" data-link="' + esc(i.wb) + '">Wildberries</a>' : '') + (i.oz ? '<a class="oz" href="#" data-link="' + esc(i.oz) + '">Ozon</a>' : '') + (i.ym ? '<a class="ym" href="#" data-link="' + esc(i.ym) + '">Маркет</a>' : '') + '</div>';
   h += '<div style="height:10px"></div><div class="grid"><button class="ghost" data-reg="' + esc(i.s) + '">На гарантию</button><button class="ghost" data-ask="' + esc(i.s) + '">Спросить Кэндзи</button></div>';
