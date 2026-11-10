@@ -246,7 +246,7 @@ async function loadCatalog() {
     const r = window.__DEMO_CAT ? { ok: true, json: async () => window.__DEMO_CAT } : await fetch(CATALOG);
     if (!r.ok) throw new Error();
     CAT = await r.json();
-    { const O = ['Смесители', 'Унитазы и инсталляции', 'Душ', 'Ванны', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары']; const w = (i) => O.indexOf(i.g) + 1 || 9; CAT.items.sort((x, y) => w(x) - w(y)); }
+    { const O = ['Смесители', 'Унитазы и инсталляции', 'Душ', 'Ванны', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары']; const w = (i) => (O.indexOf(i.g) + 1 || 9) * 2 + (i.soon ? 1 : 0); CAT.items.sort((x, y) => w(x) - w(y)); }
     const groups = ['Все', ...['Смесители', 'Унитазы и инсталляции', 'Душ', 'Ванны', 'Мойки и раковины', 'Мебель и зеркала', 'Аксессуары'].filter(g => CAT.items.some(i => i.g === g))];
     $('#groups').innerHTML = groups.map(g => '<button data-g="' + esc(g) + '"' + (g === group ? ' class="on"' : '') + '>' + esc(g) + '</button>').join('');
     renderProducts();
@@ -258,7 +258,7 @@ function match(i, q) { if (!q) return true; const hay = norm([i.s, i.n, i.ser, i
 function list() { const q = $('#q').value.trim(); return CAT.items.filter(i => (group === 'Все' || i.g === group) && match(i, q)); }
 function renderProducts() {
   const all = list(), part = all.slice(0, shown);
-  $('#products').innerHTML = part.length ? '<div class="list">' + part.map(i => '<a class="item prod" href="#" data-sku="' + esc(i.s) + '"><div class="t"><b>' + esc(i.n) + '</b><small>' + esc([i.ser, i.col, i.s].filter(Boolean).join(' · ')) + '</small></div>' + (i.nw ? '<span class="pill new">новинка</span>' : '') + '</a>').join('') + '</div>' : '<div class="card empty">Ничего не нашлось. Попробуйте другое слово или спросите Кендзи в чате.</div>';
+  $('#products').innerHTML = part.length ? '<div class="list">' + part.map(i => '<a class="item prod" href="#" data-sku="' + esc(i.s) + '"><div class="t"><b>' + esc(i.n) + '</b><small>' + esc([i.ser, i.col, i.s].filter(Boolean).join(' · ')) + '</small></div>' + (i.soon ? '<span class="pill new">скоро</span>' : (i.nw ? '<span class="pill new">новинка</span>' : '')) + '</a>').join('') + '</div>' : '<div class="card empty">Ничего не нашлось. Попробуйте другое слово или спросите Кэндзи в чате.</div>';
   $('#more').style.display = all.length > shown ? 'block' : 'none';
 }
 $('#q').addEventListener('input', () => { shown = 24; renderProducts(); });
@@ -281,7 +281,8 @@ function openProduct(sku) {
   if (i.pk) h += '<label>Комплектация</label><div class="pre">' + esc(i.pk) + '</div>';
   if (i.oth) h += '<label>Ещё о модели</label><div class="pre">' + esc(i.oth) + '</div>';
   if (wd) h += '<label>Гарантия по узлам</label><div class="pre">' + esc(wd) + '</div>';
-  h += '<div class="mp">' + (i.wb ? '<a class="wb" href="#" data-link="' + esc(i.wb) + '">Wildberries</a>' : '') + (i.oz ? '<a class="oz" href="#" data-link="' + esc(i.oz) + '">Ozon</a>' : '') + (i.ym ? '<a class="ym" href="#" data-link="' + esc(i.ym) + '">Маркет</a>' : '') + '</div>';
+  if (i.soon) h += '<div class="card" style="margin-top:12px;background:var(--soft)"><b>Новинка TOKITO, скоро в продаже</b><p class="sub" style="margin:4px 0 10px">Модель уже есть у нас и скоро появится на маркетплейсах. Кэндзи напишет вам, когда её можно будет заказать.</p><button class="main" data-wait="' + esc(i.s) + '">Сообщить о поступлении</button></div>';
+  if (!i.soon) h += '<div class="mp">' + (i.wb ? '<a class="wb" href="#" data-link="' + esc(i.wb) + '">Wildberries</a>' : '') + (i.oz ? '<a class="oz" href="#" data-link="' + esc(i.oz) + '">Ozon</a>' : '') + (i.ym ? '<a class="ym" href="#" data-link="' + esc(i.ym) + '">Маркет</a>' : '') + '</div>';
   h += '<div style="height:10px"></div><div class="grid"><button class="ghost" data-reg="' + esc(i.s) + '">На гарантию</button><button class="ghost" data-ask="' + esc(i.s) + '">Спросить Кэндзи</button></div>';
   $('#sheetIn').innerHTML = h; $('#sheet').classList.add('on');
   try { tg.BackButton.show(); } catch (e) {}
@@ -362,6 +363,7 @@ document.addEventListener('click', (e) => {
   const doc = t.closest('[data-doc]'); if (doc) { e.preventDefault(); openLink(base + doc.dataset.doc); return; }
   const g = t.closest('[data-go]'); if (g) { go(g.dataset.go); return; }
   const reg = t.closest('[data-reg]'); if (reg) { closeSheet(); go('warranty'); setPick('w', reg.dataset.reg); return; }
+  const wt = t.closest('[data-wait]'); if (wt) { closeSheet(); openTg('https://t.me/' + BOT + '?start=wait_' + wt.dataset.wait.replace(/[^A-Za-z0-9_-]/g, '')); return; }
   const ask = t.closest('[data-ask]'); if (ask) { closeSheet(); openTg('https://t.me/' + BOT); return; }
 });
 
